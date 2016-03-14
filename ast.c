@@ -7,26 +7,26 @@
 
 
 Prog * make_prog(Block * b){
-  Prog * prog = (Prog *)malloc(sizeof(Prog)); 
+  Prog * prog = malloc(sizeof(*prog)); 
   prog->block = b; 
   return prog; 
 }
  
 Block * make_block(Cmds * cmds){
-  Block * block = (Block *)malloc(sizeof(Block)); 
+  Block * block = malloc(sizeof(*block)); 
   block->cmds = cmds; 
   return block; 
 }
 
 Cmds * make_stat(Stat * s){
-  Cmds * stat = (Cmds *)malloc(sizeof(Cmds)); 
+  Cmds * stat = malloc(sizeof(*stat)); 
   stat->type = T_STAT; 
   stat->content.stat = s; 
   return stat; 
 }
 
 Cmds * make_decCmds(Dec * dec, Cmds * cmds){
-  Cmds * cCmds = (Cmds *)malloc(sizeof(Cmds)); 
+  Cmds * cCmds = malloc(sizeof(*cCmds)); 
   cCmds->type = T_DECCMDS; 
   cCmds->content.decCmds.dec = dec; 
   cCmds->content.decCmds.cmds = cmds; 
@@ -35,7 +35,7 @@ Cmds * make_decCmds(Dec * dec, Cmds * cmds){
 
  
 Cmds * make_statCmds (Stat * stat, Cmds * cmds){
- Cmds * sCmds = (Cmds *)malloc(sizeof(Cmds)); 
+ Cmds * sCmds = malloc(sizeof(*sCmds)); 
   sCmds->type = T_STATCMDS; 
   sCmds->content.statCmds.stat = stat; 
   sCmds->content.statCmds.cmds = cmds; 

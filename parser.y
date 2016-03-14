@@ -112,12 +112,13 @@ Type:
 
        FILE * f ; 
 
-       if(!(f=open(argv[1], "r"))){
+       if(!(f=fopen(argv[1], "r"))){
 	   fprintf(stderr, "Erreur a l'ouverture du fichier %s\n", argv[1]); 
 	   exit(1); 
 	 }
 
-	 yyin = f;
+
+	 yyin = f; 
 	 yyparse(); 
 	 fclose(f);  
 

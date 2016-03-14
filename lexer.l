@@ -5,16 +5,16 @@
 %}
 
 num [0-9]+
-ident [a-z][a-zA-Z]+
+ident [a-z][a-zA-Z]*
 
 %%
-
-{num}   { yylval.entier = atoi(yytext); return(NUM);}
-{ident} { yylval.str = strdup(yytext); return(IDENT);}
 
 "true" {return (TRUE);}
 "false" {return (FALSE);}
 
+"int" {return (INT);}
+"bool" {return (BOOL);}
+"void" {return (VOID);}
 
 "add" {return(ADD);}
 "sub" {return(SUB);}
@@ -33,6 +33,9 @@ ident [a-z][a-zA-Z]+
 
 "CONST" {return(CONST);}
 "VAR" {return(VAR);}
+
+{num}   { yylval.entier = atoi(yytext); return(NUM);}
+{ident} { yylval.str = strdup(yytext); return(IDENT);}
 
 [ \n\t] {}
 

@@ -112,6 +112,7 @@ Expr * make_num(int num);
 Expr * make_ident(char *ident); 
 Expr * make_un(Expr *expr); 
 Expr * make_bin(int op, Expr * right, Expr * left); 
+Type * make_type(int type);
 
 
 
