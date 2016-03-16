@@ -24,8 +24,7 @@ struct _expr{
   int type; 
   union{
     int bool; 
-    int num; 
-    break; 
+    int num;  
     char * ident; 
     struct {
       int op;

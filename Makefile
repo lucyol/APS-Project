@@ -1,15 +1,16 @@
+all: aps
 
-parser: parser.y
+parser.tab.c: parser.y
 	bison -d parser.y
 
-lexer: lexer.l
+lex.yy.c: lexer.l
 	flex lexer.l
 
-ast: ast.c ast.h
-	gcc -c ast.c
+%.o: %.c
+	gcc -c $<
 
-aps: parser lexer ast
-	gcc -o aps ast.o lex.yy.c parser.tab.c -lfl
+aps:  parser.tab.c lex.yy.c ast.o ast_print.o
+	gcc -o aps $^ -lfl
 
 clean:
-	rm -f parser.tab.* lex.yy.c aps *~ *.o
+	rm -f parser.tab.* lex.yy.c aps *~ *.o exemples/*.out

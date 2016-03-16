@@ -6,26 +6,31 @@
 #include <string.h>
   
 #include "ast.h"
+#include "ast_print.h"
   
-  extern FILE * yyin;
-  
+  int yylex(); 
+   
   int yyerror(const char *message) {
     fprintf(stderr, "%s\n", message);
     return 0;
   } 
-  
+
+  extern FILE * yyin;
+  FILE * yyout; 
+
+  Prog * prog; 
   %}
 
 %union{
   int entier;
   char* str;
-  struct _prog* prog;
-  struct _block* block; 
-  struct _cmds* cmds; 
-  struct _dec* dec; 
-  struct _stat* stat; 
-  struct _expr* expr; 
-  struct _type* type;  
+  struct _prog * prog; 
+  struct _block * block; 
+  struct _cmds * cmds; 
+  struct _dec * dec; 
+  struct _stat * stat; 
+  struct _expr * expr; 
+  struct _type * type; 
  }
 
 
@@ -51,7 +56,7 @@
 
 %%
 
-Prog: Block { $$ = make_prog($1); }
+Prog: Block { prog = make_prog($1); }
   
 
 Block : '[' Cmds ']' { $$ = make_block($2); }
@@ -64,7 +69,7 @@ Stat          { $$=make_stat($1);}
   
 
 Dec:
-VAR IDENT Type        { $$=make_dec(T_DEC,strdup($2),$3,NULL); }
+VAR IDENT Type        { $$=make_dec(T_VAR,strdup($2),$3,NULL); }
 |CONST IDENT Type Expr { $$=make_dec(T_CONST,strdup($2),$3,$4); }
   
 
@@ -117,10 +122,18 @@ Type:
 	   exit(1); 
 	 }
 
-
 	 yyin = f; 
 	 yyparse(); 
 	 fclose(f);  
+
+	 if(!(yyout=fopen(strcat(argv[1],".out"), "w"))){
+	   fprintf(stderr, "Erreur a l'ouverture du fichier test\n" ); 
+	   exit(1); 
+	 }
+
+	 print_prog(yyout, prog); 
+	 fclose(yyout); 
+
 
 	 return 0; 
 }
